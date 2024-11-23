@@ -4,6 +4,8 @@
 Abran un cmd en la direccion de la direccion de el proyecto y siguan los siguientes pasos 
 ## 1. Verificar la instalación de Python
 
+Usaremos python 3.10
+
 Asegúrate de tener Python instalado en tu sistema. Puedes verificarlo ejecutando el siguiente comando en tu terminal o línea de comandos:
 
 ```bash
