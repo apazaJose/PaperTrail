@@ -1,0 +1,9 @@
+# Usar la versión sin interfaz gráfica de OpenCV
+opencv-python-headless==4.10.0.84
+
+pytesseract==0.3.8
+scikit-learn==1.2.0
+matplotlib==3.7.1
+seaborn==0.12.2
+kivy==2.1.0
+pytest==7.2.1
