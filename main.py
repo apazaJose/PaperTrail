@@ -1,85 +1,38 @@
-from src.domain.entities.Clustering.KMeansAlgorithm import KMeansAlgorithm
-from src.domain.entities.Clustering.ClusteringService import ClusteringService
-from src.application.services.DocumentClassifierApplication import DocumentClassifierApplication
+from src.application.services.ImageOCRService import ImageOCRService
+from src.application.services.TfidfExtractionService import TfidfExtractionService
+from src.domain.entities.imagenProcessor.OcrProcessor import OCRProcessor
 
-# Simulación de un módulo externo que procesa imágenes
-def process_image(image_path):
-    """
-    Procesa una imagen y genera características simuladas.
-    :param image_path: Ruta de la imagen a procesar.
-    :return: Lista de características.
-    """
-    print(f"Procesando la imagen: {image_path}")
-
-    # Simulaciones de características de la imagen
-    color_promedio = [120, 100, 80]  # Simula valores promedio de RGB
-    escala_grises_promedio = 50  # Simula el promedio de escala de grises
-    densidad_bordes = 0.15  # Simula la densidad de bordes (15%)
-    numero_palabras = 50  # Simula la cantidad de palabras extraídas
-    relevancia_palabras_clave = 5  # Simula el número de palabras clave encontradas
-
-    # Construcción del vector de características
-    vector_caracteristicas = [
-        *color_promedio,              # Rojo, Verde, Azul
-        escala_grises_promedio,       # Intensidad de gris promedio
-        densidad_bordes,              # Densidad de bordes
-        numero_palabras,              # Número de palabras
-        relevancia_palabras_clave,    # Relevancia de palabras clave
-    ]
-
-    return vector_caracteristicas
-
-
-# Preprocesador de características
-def preprocess_features(features):
-    """
-    Realiza un preprocesamiento básico sobre las características.
-    :param features: Lista de características.
-    :return: Características preprocesadas.
-    """
-    # Aquí puedes agregar más lógica si es necesario, como normalización
-    return features
-
-
-# Configuración inicial del sistema
 def main():
-    """
-    Punto de entrada del programa.
-    """
-    # Datos de entrenamiento simulados
-    training_data = [
-        [120, 100, 80, 50, 0.15, 50, 5],  # Factura
-        [200, 190, 180, 80, 0.10, 30, 3],  # Recibo
-        [50, 40, 30, 20, 0.25, 20, 1],    # Otro
-    ]
+    # Configurar OCR con la ruta de Tesseract (si es necesario)
+    tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    ocr_processor = OCRProcessor(tesseract_cmd=tesseract_cmd)
 
-    # Inicializar el algoritmo KMeans con 3 clusters
-    kmeans_algorithm = KMeansAlgorithm(n_clusters=3)
-    kmeans_algorithm.train(training_data)
+    # Inicializar el servicio de OCR
+    ocr_service = ImageOCRService(ocr_processor)
 
-    # Imprimir los centroides después de entrenar
-    print("\nCentroides de los clusters:")
-    print(kmeans_algorithm.kmeans.cluster_centers_)
+    # Ruta de la imagen a procesar
+    image_path = r'C:\Users\Gustavo\Downloads\WhatsApp Image 2024-11-26 at 18.38.06.jpeg'
 
-    # Configuración del servicio de clustering
-    clustering_service = ClusteringService(kmeans_algorithm)
+    # Extraer texto de la imagen usando OCR
+    try:
+        text = ocr_service.extract_text_from_processed_image(image_path)
+        print("Texto extraído de la imagen:")
+        print(text)
+    except Exception as e:
+        print(f"Error durante la extracción de texto: {e}")
+        return
 
-    # Configuración de la aplicación con preprocesador
-    document_classifier = DocumentClassifierApplication(
-        clustering_service, preprocess_features
-    )
+    # Inicializar el servicio de extracción de TF-IDF
+    tfidf_service = TfidfExtractionService()
 
-    # Simula la clasificación de una nueva imagen
-    image_path = r"rutaprueba"  # Cambia esto por la ruta real de tu imagen
-    features = process_image(image_path)  # Obtén las características procesadas de la imagen
+    # Extraer las características TF-IDF del texto procesado
+    try:
+        features = tfidf_service.extract(text)
+        print("Características extraídas con TF-IDF:")
+        for word, score in features.items():
+            print(f"{word}: {score}")
+    except Exception as e:
+        print(f"Error durante la extracción de TF-IDF: {e}")
 
-    # Clasificar el documento
-    document_type = document_classifier.classify(features)
-
-    # Mostrar el resultado
-    print(f"\nLa imagen '{image_path}' fue clasificada como: {document_type}")
-
-
-# Ejecuta el programa principal
 if __name__ == "__main__":
     main()
