@@ -1,5 +1,6 @@
 
 from src.application.ProcessorImageService.AnalizadorDeBloquesDeTexto import AnalizadorDeBloquesDeTextoConMetricas
+from src.application.ProcessorImageService.CalculadorDeDensidadDeTexto import CalculadorDeDensidadDeTexto
 from src.application.ProcessorImageService.CalculadorDeTamanoYProporcion import CalculadorDeTamanoYProporcion
 from src.application.ProcessorImageService.ContadorDeElementosVisuales import ContadorDeElementosVisuales
 from src.application.ProcessorImageService.DetectorDeMargenes import DetectorDeMargenes
@@ -27,11 +28,13 @@ class ProcesadorDeImagenes:
         areaBloqueTexto = adbt.obtener_area_total(image)
         tamanoPromBloqueTexto = adbt.obtener_promedio_area(image)
 
+        densidadTexto=CalculadorDeDensidadDeTexto(self.procesadorEscalaGrises,self.procesadorUmbralizacion).calcular_densidad(image)
+
         TamanoImage = CalculadorDeTamanoYProporcion().calcular(image)
 
         NumElementos = ContadorDeElementosVisuales(self.procesadorEscalaGrises,self.procesadorUmbralizacion).contar(image)
         margenPromedio = DetectorDeMargenes(self.procesadorEscalaGrises).detectar(image)
 
-        vector = (cantBloquesTexto,areaBloqueTexto,tamanoPromBloqueTexto,TamanoImage,NumElementos,margenPromedio)
+        vector = (cantBloquesTexto,areaBloqueTexto,tamanoPromBloqueTexto,densidadTexto,TamanoImage,NumElementos,margenPromedio)
         return vector
 

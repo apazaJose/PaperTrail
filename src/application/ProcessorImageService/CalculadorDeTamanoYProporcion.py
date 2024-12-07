@@ -22,4 +22,4 @@ class CalculadorDeTamanoYProporcion:
         proporcion = ancho / altura
 
         # Retornar los resultados
-        return (ancho, altura, proporcion)
+        return (ancho, altura)
