@@ -11,7 +11,7 @@ def main():
     ocr_service = ImageOCRService(ocr_processor)
 
     # Ruta de la imagen a procesar
-    image_path = r'C:\Users\Gustavo\Downloads\WhatsApp Image 2024-11-26 at 18.38.06.jpeg'
+    image_path = r'C:\Users\Gustavo\Downloads\verificador-de-facturas-del-SIN-9.png'
 
     # Extraer texto de la imagen usando OCR
     try:
@@ -27,12 +27,14 @@ def main():
 
     # Extraer las características TF-IDF del texto procesado
     try:
-        features = tfidf_service.extract(text)
-        print("Características extraídas con TF-IDF:")
-        for word, score in features.items():
+        most_frequent_words = tfidf_service.extract(text)
+        #Mostrar solo las palabras con la fecuencia mas alta
+        print("Palabras con la frecuencia más alta:")
+        for word, score in most_frequent_words.items():
             print(f"{word}: {score}")
     except Exception as e:
         print(f"Error durante la extracción de TF-IDF: {e}")
+
 
 if __name__ == "__main__":
     main()
