@@ -6,7 +6,7 @@ from src.application.services.ProcesadorDeImagenes import ProcesadorDeImagenes
 class TuProcesadorDeImagenes:
     def __init__(self):
         # Crear un mock para la imagen
-        self.image_mock = cv2.imread('./../../PaperTrail/tests/imagenes/caratula.jpeg')
+        self.image_mock = cv2.imread('/Users/jose/Documents/Pycharm/PaperTrail/PaperTrail/tests/imagenes/re.jpeg')
 
         if self.image_mock is None:
             raise ValueError("No se pudo cargar la imagen, verifica la ruta.")
@@ -17,6 +17,7 @@ class TuProcesadorDeImagenes:
     def test_vectorizar_imagen(self):
         # Llamar al método 'vectorizarImagen' con la imagen mockeada
         vector = self.procesador.vectorizarImagen(self.image_mock)
+        vector2 = self.procesador.vectorizarTextoImagenProcesada(self.image_mock,)
         print(vector)
         # Realiza las aserciones necesarias
         assert vector is not None  # O cualquier otra condición que desees verificar

@@ -64,3 +64,16 @@ class ProcesadorDeImagenes:
         contidad_numeros= contar_numeros(text)
         vector_image=(most_frequent_words,cantidad_palabras,tamanio_prome_palabra,cantidadLineasTxt,cantidad_fechas,contidad_numeros)
         return vector_image
+
+    def ObtenerVectorDatos(self, image, path_tesseract):
+        """
+        Combina los vectores generados por vectorizarImagen y vectorizarTextoImagenProcesada
+        en un solo vector.
+        """
+        vector_imagen = self.vectorizarImagen(image)
+        vector_texto = self.vectorizarTextoImagenProcesada(image, path_tesseract)
+
+        # Combinar los vectores
+        vector_combinado = vector_imagen + vector_texto
+
+        return vector_combinado
