@@ -11,7 +11,7 @@ class ImageOCRService:
         Procesa y extrae texto de una imagen.
         """
         try:
-            # Preprocesa la imagen (si es necesario)
+            # Preprocesa la imagen (si es necesario) cambiar esto para integrar lo que hizo josé
             processed_image_path = preprocess_image(image_path)
 
             # Extrae texto usando OCR
