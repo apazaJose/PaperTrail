@@ -6,7 +6,7 @@ from src.application.services.ProcesadorDeImagenes import ProcesadorDeImagenes
 class TuProcesadorDeImagenes:
     def __init__(self):
         # Crear un mock para la imagen
-        self.image_mock = cv2.imread('/Users/jose/Documents/Pycharm/PaperTrail/PaperTrail/tests/imagenes/caratula.jpeg')
+        self.image_mock = cv2.imread('./../../PaperTrail/tests/imagenes/caratula.jpeg')
 
         if self.image_mock is None:
             raise ValueError("No se pudo cargar la imagen, verifica la ruta.")
