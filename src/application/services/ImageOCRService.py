@@ -19,3 +19,15 @@ class ImageOCRService:
             return text
         except Exception as e:
             raise ValueError(f"Error en el servicio de OCR: {e}")
+
+
+    def extract_text_from_processed_image2(self, image) -> str:
+        """
+        Procesa y extrae texto de una imagen.
+        """
+        try:
+            # Extrae texto usando OCR
+            text = self.ocr_processor.extract_text_image(image)
+            return text
+        except Exception as e:
+            raise ValueError(f"Error en el servicio de OCR: {e}")

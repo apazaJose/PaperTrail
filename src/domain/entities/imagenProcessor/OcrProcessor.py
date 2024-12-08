@@ -18,3 +18,13 @@ class OCRProcessor:
             return text
         except Exception as e:
             raise ValueError(f"Error procesando la imagen: {e}")
+
+    def extract_text_image(self, image) -> str:
+        """
+        Extrae texto de una imagen usando Tesseract OCR.
+        """
+        try:
+            text = pytesseract.image_to_string(image, lang='spa')
+            return text
+        except Exception as e:
+            raise ValueError(f"Error procesando la imagen: {e}")
