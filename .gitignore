@@ -1,1 +1,6 @@
 venv/
+.idea/
+readme/
+
+__pycache__/
+*.pyc
