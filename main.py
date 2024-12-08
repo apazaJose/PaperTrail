@@ -77,13 +77,13 @@ def classify_and_organize_documents(directory, model):
 
 # Función para entrenar el modelo (simulación)
 def train_classifier():
-    # Dataset de ejemplo (reemplaza esto con datos reales)
+    # ejemplo 
     X = [
-        [50, 5],  # Ejemplo: [longitud del texto, número de contornos]
+        [50, 5], 
         [200, 15],
         [120, 10],
     ]
-    y = ["factura", "nota", "receta"]  # Etiquetas de los documentos
+    y = ["factura", "nota", "receta"]  # Etiquetas de documentos
 
     # Dividir en entrenamiento y prueba
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
