@@ -21,6 +21,7 @@ class ProcesadorDeImagenes:
         self.procesadorUmbralizacion=ThresholdProcessor(self.open_cv_handler)
 
     def vectorizarImagen(self,image):
+        #image es la imagen en fecto, no es la ruta de la imagen
         image = self.procesadorReducirRuido.process(image)
 
         adbt = AnalizadorDeBloquesDeTextoConMetricas(self.procesadorEscalaGrises,self.procesadorUmbralizacion)
