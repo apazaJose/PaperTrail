@@ -12,6 +12,9 @@ import cv2
 # Manejo de Texto
 from kivy.uix.label import Label
 
+import cv2
+from src.application.services.ProcesadorDeImagenes import ProcesadorDeImagenes
+
 Window.size = (1300, 800)
 
 
@@ -414,11 +417,10 @@ Builder.load_string("""
 """)
 
 
+
 class MisPestanas(TabbedPanel):
     RUTA_IMAGEN_PURA = ""  # Ruta de la imagen seleccionada
 
-    # esta parte es para (cargar la IMAGEN) con el metodo (ARRASTRE)
-    # -------------------------------------------------------------------------------------------------
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Habilitar soporte para arrastrar y soltar archivos
@@ -431,27 +433,43 @@ class MisPestanas(TabbedPanel):
         self.ids.subVentana_3_Imajen.source = RUTA_IMAGEN_PURA  # Mostrar la imagen arrastrada
         self.RUTA_IMAGEN_PURA = RUTA_IMAGEN_PURA
 
-    # esta parte es para Usar el (BOTON) para cargar la (IMAGEN)
-    # -------------------------------------------------------------------------------------------------
+        # Procesar la imagen con Tesseract
+        texto_extraido = self.procesar_imagen_con_tesseract(RUTA_IMAGEN_PURA)
+        self.mostrar_texto_pantalla(texto_extraido)
+
     def seleccionar_imagen(self):
         """Abre un diálogo para seleccionar una imagen."""
         from kivy.uix.filechooser import FileChooserListView
-        filechooser = FileChooserListView(filters=['*.png', '*.jpg', '*.jpeg'])
-        popup = Popup(title="Seleccionar Imagen",
-                      content=filechooser,
-                      size_hint=(0.9, 0.9))
-        popup.open()
-        filechooser.bind(on_submit=lambda instance, value, touch: self.cargar_imagen(value, popup))
 
-    def cargar_imagen(self, ruta, popup):
-        """Carga y valida la imagen seleccionada."""
-        popup.dismiss()
-        if ruta:
-            ruta_imagen = ruta[0]  # Solo cargamos el primer archivo seleccionado
-            if self.validar_imagen(ruta_imagen):
-                self.RUTA_IMAGEN_PURA = ruta_imagen
-                self.ids.subVentana_1_Imajen.source = ruta_imagen
-                self.ids.subVentana_3_Imajen.source = ruta_imagen
+        def on_file_selected(instance, value, touch):
+            ruta = value[0] if value else None
+            if ruta and self.validar_imagen(ruta):
+                self.RUTA_IMAGEN_PURA = ruta
+                self.ids.subVentana_1_Imajen.source = ruta
+                self.ids.subVentana_3_Imajen.source = ruta
+
+                # Procesar la imagen con Tesseract
+                texto_extraido = self.procesar_imagen_con_tesseract(ruta)
+                self.mostrar_texto_pantalla(texto_extraido)
+            popup.dismiss()
+
+        filechooser = FileChooserListView(filters=['*.png', '*.jpg', '*.jpeg'])
+        popup = Popup(title="Seleccionar Imagen", content=filechooser, size_hint=(0.9, 0.9))
+        popup.open()
+        filechooser.bind(on_submit=on_file_selected)
+
+    def procesar_imagen_con_tesseract(self, ruta):
+        """Procesa la imagen seleccionada con Tesseract y extrae texto."""
+        tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Cambia según tu sistema
+        procesador = ProcesadorDeImagenes()
+
+        try:
+            imagen = cv2.imread(ruta)
+            texto = procesador.vectorizarTextoImagenProcesada(imagen, tesseract_cmd)
+            return texto
+        except Exception as e:
+            print(f"Error procesando la imagen con Tesseract: {e}")
+            return "Error al procesar la imagen."
 
     def validar_imagen(self, ruta):
         """Valida que el archivo sea una imagen y cumpla con las dimensiones mínimas."""
@@ -465,14 +483,8 @@ class MisPestanas(TabbedPanel):
             print(f"Error validando imagen: {e}")
             return False
 
-
-
-    # Cuando se (PRESIONA) el (BOTON), (Limpiar)
-    # -------------------------------------------------------------------------------------------------
     def limpiar_todo(self):
-        """
-        Limpia la imagen cargada.
-        """
+        """Limpia la imagen cargada."""
         self.RUTA_IMAGEN_PURA = ""
 
         # Limpia la imagen en la interfaz
@@ -480,27 +492,19 @@ class MisPestanas(TabbedPanel):
         self.ids.subVentana_3_Imajen.source = ""
         self.ids.subVentana_2_ver_texto.text = ""
 
-
-
-    # -------------------------------------------------------------------------------------------------
     def mostrar_texto_pantalla(self, texto):
         """Actualiza el widget de texto con el contenido recibido."""
         self.ids.subVentana_2_ver_texto.text = texto
-
-
-
-
 
     def obtener_ruta_imagen(self):
         """Devuelve la ruta de la imagen cargada."""
         return getattr(self, "RUTA_IMAGEN_PURA", None)
 
 
-
 class Iniciar_Pestannas(App):
     def build(self):
         return MisPestanas()
 
+
 if __name__ == "__main__":
     Iniciar_Pestannas().run()
-    
