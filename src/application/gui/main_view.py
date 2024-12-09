@@ -421,6 +421,9 @@ Builder.load_string("""
 """)
 
 
+from src.application.services.ProcesadorDeImagenes import ProcesadorDeImagenes
+from src.application.CloustersAlgoritm.KMeansClouster import KMeansClouster
+from src.application.CloustersAlgoritm.ClusterImageOrganizer import ClusterImageOrganizer
 
 class MisPestanas(TabbedPanel):
     RUTA_IMAGEN_PURA = ""  # Ruta de la imagen seleccionada
@@ -469,8 +472,31 @@ class MisPestanas(TabbedPanel):
 
         try:
             imagen = cv2.imread(ruta)
+            print("leer imagen")
+            procesador = ProcesadorDeImagenes()
+            tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
             texto = procesador.vectorizarTexto(imagen, tesseract_cmd)
             return texto
+
+            """datos = procesador.ObtenerVectorDatos(imagen, tesseract_cmd)
+            print(datos)
+
+
+            # Inicializar KMeansClouster
+            kmeans = KMeansClouster.get_instance()
+            etiqueta = kmeans.clasificar_y_recalcular(datos)
+            print(etiqueta)
+
+            # Organizar imágenes con ClusterImageOrganizer
+            organizer = ClusterImageOrganizer.get_instance()
+
+
+            # Ahora puedes usar el objeto organizer
+            cluster = organizer.agregar_imagen_a_clust(imagen,etiqueta)
+            organizer.visualizar_imagenes_por_clust()
+            print("impresion")
+            print(cluster)"""
+
         except Exception as e:
             print(f"Error procesando la imagen con Tesseract: {e}")
             return "Error al procesar la imagen."

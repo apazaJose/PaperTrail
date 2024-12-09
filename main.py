@@ -122,9 +122,6 @@ class IniciarPestanas(App):
 
             # Llamar a la función para obtener imágenes
             imagenes = obtener_imagenes(self.texto_2,self.texto_1)
-            for imagen in imagenes:
-                print(imagen)
-
             popup.dismiss()
 
         guardar_button = Button(text="Guardar", size_hint=(1, 0.2))

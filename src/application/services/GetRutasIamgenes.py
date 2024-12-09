@@ -16,17 +16,16 @@ def obtener_imagenes(directorio, num_cluesteres):
         print("El directorio no existe.")
         return []
 
-    # Convertir num_cluesteres a entero
+    rutas_imagenes = []
+    for extension in ['*.jpg', '*.jpeg', '*.png']:
+        rutas_imagenes.extend(glob.glob(os.path.join(directorio, extension)))
+
+    imagenes_cargadas = []
     try:
         num_cluesteres = int(num_cluesteres)
     except ValueError:
         print("El número de clústeres debe ser un entero.")
         return []
-
-    # Obtener todas las imágenes en el directorio
-    rutas_imagenes = glob.glob(os.path.join(directorio, '*.[jp][pn]g'))
-    imagenes_cargadas = []
-
     for ruta in rutas_imagenes:
         try:
             imagen = cv2.imread(ruta)
@@ -44,18 +43,9 @@ def obtener_imagenes(directorio, num_cluesteres):
 
     for imagen in imagenes_cargadas:
         vector = procesador.ObtenerVectorDatos(imagen, tesseract_cmd)
+        print (vector)
         datos.append(vector)
 
-    # Depuración: verificar longitudes de los vectores
-    vector_lengths = [len(v) for v in datos]
-    print("Longitudes de los vectores:", vector_lengths)
-
-    # Rellenar vectores más cortos con ceros
-    max_length = max(vector_lengths)
-    datos = [np.pad(v, (0, max_length - len(v)), mode='constant') for v in datos]
-
-    # Convertir datos a matriz numpy
-    datos = np.array(datos)
 
     # Inicializar KMeansClouster
     kmeans = KMeansClouster.get_instance(num_cluesteres, datos)
@@ -63,9 +53,9 @@ def obtener_imagenes(directorio, num_cluesteres):
 
     # Organizar imágenes con ClusterImageOrganizer
     organizer = ClusterImageOrganizer.get_instance(imagenes_cargadas, etiquetas)
-    cluster = organizer.organizar_imagenes()
 
-    # Visualizar las imágenes por clúster
+    # Ahora puedes usar el objeto organizer
+    cluster = organizer.organizar_imagenes()
     organizer.visualizar_imagenes_por_clust()
 
     return cluster
