@@ -5,4 +5,9 @@ venv/
 __pycache__
 __pycache__/__init__
 *.pyc
-*.pyo
+.idea/
+readme/
+
+__pycache__/
+
+
