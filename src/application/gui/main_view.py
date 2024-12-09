@@ -465,7 +465,7 @@ class MisPestanas(TabbedPanel):
 
         try:
             imagen = cv2.imread(ruta)
-            texto = procesador.vectorizarTextoImagenProcesada(imagen, tesseract_cmd)
+            texto = procesador.vectorizarTexto(imagen, tesseract_cmd)
             return texto
         except Exception as e:
             print(f"Error procesando la imagen con Tesseract: {e}")

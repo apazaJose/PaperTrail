@@ -65,6 +65,21 @@ class ProcesadorDeImagenes:
         vector_image=(most_frequent_words,cantidad_palabras,tamanio_prome_palabra,cantidadLineasTxt,cantidad_fechas,contidad_numeros)
         return vector_image
 
+    def vectorizarTexto(self,image,path_tesseract) :
+        #Este metodo recibe la imagen y la ubicacion del Tesseract
+        ocr_processor = OCRProcessor(tesseract_cmd=path_tesseract)
+        tfidf_service = TfidfExtractionService()
+        procesarText = ImageOCRService(ocr_processor)
+        image = self.procesadorEscalaGrises.process(image)
+
+        #image = self.procesadorReducirRuido.process(image)
+        #image= self.procesadorUmbralizacion.process(image)
+        #processed_image_path = "processed_image3.png"
+        #cv2.imwrite(processed_image_path, image)
+
+        text = procesarText.extract_text_from_processed_image2(image)
+        return text
+
     def ObtenerVectorDatos(self, image, path_tesseract):
         """
         Combina los vectores generados por vectorizarImagen y vectorizarTextoImagenProcesada
