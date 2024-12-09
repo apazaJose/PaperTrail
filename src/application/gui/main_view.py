@@ -233,6 +233,12 @@ Builder.load_string("""
                         halign: 'left'  # Alineación horizontal a la izquierda
                         valign: 'middle'  # Alineación vertical centrada
                         text_size: self.width, None                                   # Ajusta el texto al ancho disponible del Label
+                        
+                    Button:
+                        size_hint: None, 1
+                        width: 150
+                        text: 'Play'
+                        on_press: app.funcion_apresurada()
           
                 
             BoxLayout:
