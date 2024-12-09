@@ -76,7 +76,6 @@ class IniciarPestanas(App):
 
 
 
-
     def funcion_apresurada(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
 
@@ -94,12 +93,16 @@ class IniciarPestanas(App):
         guardar_button = Button(text="Guardar", size_hint=(1, 0.2))
         layout.add_widget(guardar_button)
 
+        # Botón para salir
+        salir_button = Button(text="Salir", size_hint=(1, 0.2))
+        layout.add_widget(salir_button)
+
         # Crear el Popup
         popup = Popup(
             title="Ingresar textos",
             content=layout,
             size_hint=(0.8, 0.6),
-            auto_dismiss=False
+            auto_dismiss=False  # El popup no se cierra automáticamente
         )
 
         # Acción al presionar el botón Guardar
@@ -108,12 +111,22 @@ class IniciarPestanas(App):
             self.texto_2 = input_texto_2.text
             if self.texto_1 and self.texto_2:
                 print(f"Texto 1: {self.texto_1}, Texto 2: {self.texto_2}")  # Debug
-                popup.dismiss()
+                popup.dismiss()  # Cerrar el popup después de guardar
             else:
                 print("Por favor, complete ambos campos.")
 
+        # Acción al presionar el botón Salir
+        def salir_popup(instance):
+            popup.dismiss()  # Cerrar el popup cuando se presiona Salir
+
+        # Vincular los botones con sus acciones
         guardar_button.bind(on_press=guardar_textos)
+        salir_button.bind(on_press=salir_popup)
+
+        # Abrir el popup
         popup.open()
+
+
 
 
     def build(self):

@@ -6,6 +6,7 @@ from kivy.core.window import Window
 # Pequeñas ventanas
 from kivy.uix.popup import Popup
 
+
 # Manejo de Imagenes
 import cv2
 
@@ -300,7 +301,7 @@ Builder.load_string("""
                                 size_hint: None, 1
                                 width: 150
                                 background_normal: 'assets/images/3_Blanco.jpg'  # Ruta de la imagen
-                                background_down: 'assets/images/3_Blanco.jpg'  # Ruta de la imagen cuando el botón es presionado
+                                background_down: 'assets/images/3_Blanco.jpg'  # Ruta de la imagen cuando el botón es presionado                                        
                                 on_press: root.seleccionar_imagen()
                                 #****************************************************
                                 # Boton_1 = Explorar en Busqueda de la Imajen
@@ -494,12 +495,10 @@ class MisPestanas(TabbedPanel):
         self.ids.subVentana_2_ver_texto.text = texto
 
 
-
-
-
     def obtener_ruta_imagen(self):
         """Devuelve la ruta de la imagen cargada."""
         return getattr(self, "RUTA_IMAGEN_PURA", None)
+
 
 
 
