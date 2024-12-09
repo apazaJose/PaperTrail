@@ -61,3 +61,10 @@ deactivate
 ```
 
 ¡Eso es todo! Ahora tienes un entorno virtual configurado para tu proyecto.
+
+## 6. Instalar Tesseract
+Es necesario instalar Tesseract para poder usar pytesseract
+* Link de descarga para windows: https://github.com/UB-Mannheim/tesseract/wiki
+* Descargar el instalador .exe del programa 
+* Instalar el programa en la ruta por defecto (C:\Program Files\Tesseract-OCR)
+* Agregar la extencion del lenguaje Español
