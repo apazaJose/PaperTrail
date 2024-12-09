@@ -62,7 +62,7 @@ class ProcesadorDeImagenes:
         tamanio_prome_palabra = tamaño_promedio_palabras(text)
         cantidad_fechas = contar_fechas(text)
         contidad_numeros= contar_numeros(text)
-        vector_image=(most_frequent_words,cantidad_palabras,tamanio_prome_palabra,cantidadLineasTxt,cantidad_fechas,contidad_numeros)
+        vector_image=(cantidad_palabras,tamanio_prome_palabra,cantidadLineasTxt,cantidad_fechas,contidad_numeros)
         return vector_image
 
     def vectorizarTexto(self,image,path_tesseract) :

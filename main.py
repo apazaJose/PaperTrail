@@ -13,6 +13,7 @@
 
 from src.application.services.ProcesadorDeImagenes import ProcesadorDeImagenes
 import cv2
+from src.application.services.GetRutasIamgenes import obtener_imagenes
 from kivy.app import App
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
@@ -20,12 +21,15 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from src.application.gui.main_view import MisPestanas
+import os
 
 
 class IniciarPestanas(App):
 
-    texto_1 =""
-    texto_2 =""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.texto_1 = None
+        self.texto_2 = None
 
     # -- Metodo Para Limpiar Todo
     #-------------------------------------------------------------------------------------------------
@@ -92,40 +96,49 @@ class IniciarPestanas(App):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
 
         # Campo de texto 1
-        layout.add_widget(Label(text="Ingrese el primer texto:", size_hint=(1, 0.2)))
-        input_texto_1 = TextInput(hint_text="Texto 1", size_hint=(1, 0.2))
+        layout.add_widget(Label(text="Ingrese número de clusters", size_hint=(1, 0.2)))
+        input_texto_1 = TextInput(hint_text="ejem: 3", size_hint=(1, 0.2))
         layout.add_widget(input_texto_1)
 
         # Campo de texto 2
-        layout.add_widget(Label(text="Ingrese el segundo texto:", size_hint=(1, 0.2)))
-        input_texto_2 = TextInput(hint_text="Texto 2", size_hint=(1, 0.2))
+        layout.add_widget(Label(text="Ingrese la dirección de las imágenes:", size_hint=(1, 0.2)))
+        input_texto_2 = TextInput(hint_text="C:\Windows", size_hint=(1, 0.2))
         layout.add_widget(input_texto_2)
 
         # Botón para guardar
+        def guardar_textos(instance):
+            self.texto_1 = input_texto_1.text
+            self.texto_2 = input_texto_2.text
+
+            # Validar que el número de clusters sea un entero
+            if not self.texto_1.isdigit():
+                print("El número de clusters debe ser un número entero.")
+                return
+
+            # Validar que la ruta exista
+            if not os.path.isdir(self.texto_2):
+                print("La ruta proporcionada no es válida.")
+                return
+
+            # Llamar a la función para obtener imágenes
+            imagenes = obtener_imagenes(self.texto_2,self.texto_1)
+            for imagen in imagenes:
+                print(imagen)
+
+            popup.dismiss()
+
         guardar_button = Button(text="Guardar", size_hint=(1, 0.2))
+        guardar_button.bind(on_press=guardar_textos)
         layout.add_widget(guardar_button)
 
         # Crear el Popup
         popup = Popup(
-            title="Ingresar textos",
+            title="Ingresar datos",
             content=layout,
             size_hint=(0.8, 0.6),
             auto_dismiss=False
         )
-
-        # Acción al presionar el botón Guardar
-        def guardar_textos(instance):
-            self.texto_1 = input_texto_1.text
-            self.texto_2 = input_texto_2.text
-            if self.texto_1 and self.texto_2:
-                print(f"Texto 1: {self.texto_1}, Texto 2: {self.texto_2}")  # Debug
-                popup.dismiss()
-            else:
-                print("Por favor, complete ambos campos.")
-
-        guardar_button.bind(on_press=guardar_textos)
         popup.open()
-
     def build(self):
         print("Construyendo la interfaz...")
         return MisPestanas()

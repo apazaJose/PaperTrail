@@ -28,7 +28,7 @@ class ClusterImageOrganizer:
             self.etiquetas = etiquetas if etiquetas else []
             self.clusters = self._organizar_imagenes()
 
-    def _organizar_imagenes(self):
+    def organizar_imagenes(self):
         """
         Agrupa las imágenes por clústeres.
         Devuelve un diccionario con claves como el número de clústeres y valores como la lista de imágenes.
