@@ -52,7 +52,7 @@ class KMeansClouster:
         # Devolver las etiquetas para saber qué imagen pertenece a qué clúster
         print("Centroides calculados:", self.centroides)
         print("Etiquetas asignadas a cada imagen:", etiquetas)
-
+        print(etiquetas)
         return etiquetas  # Este es el array donde se indica qué clúster le corresponde a cada imagen.
 
     def clasificar_y_recalcular(self, imagenVectorizada):

@@ -40,7 +40,7 @@ class ProcesadorDeImagenes:
         NumElementos = ContadorDeElementosVisuales(self.procesadorEscalaGrises,self.procesadorUmbralizacion).contar(image)
         margenPromedio = DetectorDeMargenes(self.procesadorEscalaGrises).detectar(image)
 
-        vector = (cantBloquesTexto,areaBloqueTexto,tamanoPromBloqueTexto,densidadTexto,TamanoImage,NumElementos,margenPromedio)
+        vector = (cantBloquesTexto,areaBloqueTexto,tamanoPromBloqueTexto,densidadTexto,NumElementos,margenPromedio)
         return vector
 
     def vectorizarTextoImagenProcesada(self,image,path_tesseract) :

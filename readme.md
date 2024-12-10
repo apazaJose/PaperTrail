@@ -66,5 +66,49 @@ deactivate
 Es necesario instalar Tesseract para poder usar pytesseract
 * Link de descarga para windows: https://github.com/UB-Mannheim/tesseract/wiki
 * Descargar el instalador .exe del programa 
+* Ejecutar el instalador de tesseract
+  * Presionar boton siguiente
+  * Aceptar Terminos y condiciones
+  * Presionar boton aceptar
+  * Seleccionar la opcion de instalar para cualquier ususario
+  * Presionar boton siguiente
+  * Presionar el icono de [+] en la opcion de 'Aditional language data'
+    * Marcar el check [ ] de 'Math/equation detection module' 
+    * Marcar el check [ ] de 'Spanish' para el idioma espaniol
+    * Presionar el boton siguiente
 * Instalar el programa en la ruta por defecto (C:\Program Files\Tesseract-OCR)
-* Agregar la extencion del lenguaje Español
+* Presionar boton siguiente
+* Presionar boton instalar
+* Presionar e boton terminar
+* Para MacOs
+  ```bash
+  brew install tesseract
+  ```
+
+¡Eso es todo! Ahora tienes tesseract para tu proyecto.
+
+## 7. Ejecutar el programa
+Es necesario tener activado el entorno virtual de python, si ya creaste uno puedes ejecutar lo siguiente dentro el directorio que estes usando para ejecutar el programa:
+- **Windows**:
+  ```bash
+  venv\Scripts\activate
+  ```
+
+- **Linux/macOS**:
+  ```bash
+  source venv/bin/activate
+  ```
+Una vez activado el entorno virtual ejecutar lo siguiente:
+  ```
+ (venv) PS D:\reemplazar por tu directorio> python main.py 
+ 
+  ```
+Ejemplo de uso:
+  ```
+ (venv) PS D:\Ingenieria de Sistemas II-2024\IA\Ia2\PaperTrail> python main.py 
+ 
+  ```
+¡Eso es todo! Ahora puedes empezar a probar el proyecto.
+
+Dudas o consultas comunicarse al WhatsApp: 67508670
+  
