@@ -14,6 +14,8 @@ from kivy.uix.label import Label
 
 import cv2
 from src.application.services.ProcesadorDeImagenes import ProcesadorDeImagenes
+from src.application.CloustersAlgoritm.KMeansClouster import KMeansClouster
+from src.application.CloustersAlgoritm.ClusterImageOrganizer import ClusterImageOrganizer
 
 Window.size = (1300, 800)
 
@@ -425,7 +427,7 @@ Builder.load_string("""
 class MisPestanas(TabbedPanel):
     RUTA_IMAGEN_PURA = ""  # Ruta de la imagen seleccionada
 
-    def __init__(self, **kwargs):
+    def __init__(self,**kwargs,):
         super().__init__(**kwargs)
         # Habilitar soporte para arrastrar y soltar archivos
         Window.bind(on_dropfile=self.cargar_archivo)
@@ -470,6 +472,13 @@ class MisPestanas(TabbedPanel):
         try:
             imagen = cv2.imread(ruta)
             texto = procesador.vectorizarTexto(imagen, tesseract_cmd)
+            vectorImagen=procesador.ObtenerVectorDatos(imagen, tesseract_cmd)
+            kmeans=KMeansClouster.get_instance()
+            clouster= kmeans.clasificar_y_recalcular(vectorImagen)
+            organizer= ClusterImageOrganizer.get_instance()
+            organizer.agregar_imagen_a_clust(imagen,clouster)
+            organizer.visualizar_imagenes_por_clust()
+
             return texto
         except Exception as e:
             print(f"Error procesando la imagen con Tesseract: {e}")

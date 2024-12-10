@@ -40,7 +40,7 @@ def obtener_imagenes(directorio, num_cluesteres):
     # Procesar las imágenes con ProcesadorDeImagenes
     procesador = ProcesadorDeImagenes()
     datos = []
-    tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    tesseract_cmd = '/opt/homebrew/bin/tesseract'
 
     for imagen in imagenes_cargadas:
         vector = procesador.ObtenerVectorDatos(imagen, tesseract_cmd)
@@ -58,14 +58,14 @@ def obtener_imagenes(directorio, num_cluesteres):
     datos = np.array(datos)
 
     # Inicializar KMeansClouster
-    kmeans = KMeansClouster.get_instance(num_cluesteres, datos)
+    kmeans = KMeansClouster(num_cluesteres, datos)
     etiquetas = kmeans.inicializar_clusters()
 
     # Organizar imágenes con ClusterImageOrganizer
-    organizer = ClusterImageOrganizer.get_instance(imagenes_cargadas, etiquetas)
+    organizer = ClusterImageOrganizer(imagenes_cargadas, etiquetas)
     cluster = organizer.organizar_imagenes()
 
     # Visualizar las imágenes por clúster
     organizer.visualizar_imagenes_por_clust()
 
-    return cluster
+    return (cluster,kmeans,organizer)

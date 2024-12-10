@@ -7,13 +7,14 @@ class KMeansClouster:
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
+            cls._instance._initialized = False
         return cls._instance
 
-    def __init__(self, clousters, arrayImagenesVectorizadas):
+    def __init__(self, clousters=None, arrayImagenesVectorizadas=None):
         """
         Constructor para inicializar la clase KMeansClouster con el número de clústeres y el arreglo de imágenes vectorizadas.
         """
-        if not hasattr(self, '_initialized'):
+        if not self._initialized:
             self._initialized = True
             self.kmeans = None
             self.arrarImagenesVectorizadas = arrayImagenesVectorizadas
@@ -21,14 +22,15 @@ class KMeansClouster:
             self.centroides = None
 
     @classmethod
-    def get_instance(cls, clousters, arrayImagenesVectorizadas):
+    def get_instance(cls):
         """
         Método de clase para obtener la única instancia de la clase (patrón Singleton).
         Si la instancia no existe, se crea una nueva; de lo contrario, se devuelve la existente.
         """
         if cls._instance is None:
-            cls._instance = cls(clousters, arrayImagenesVectorizadas)
+            cls._instance = cls()
         return cls._instance
+
 
     def inicializar_clusters(self):
         """

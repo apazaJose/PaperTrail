@@ -25,6 +25,8 @@ import os
 
 
 class IniciarPestanas(App):
+    kmeans = None
+    organizer = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -120,8 +122,12 @@ class IniciarPestanas(App):
                 print("La ruta proporcionada no es válida.")
                 return
 
-            # Llamar a la función para obtener imágenes
-            imagenes = obtener_imagenes(self.texto_2,self.texto_1)
+            # Llamar a la función para obtener imágenes, esta es la funcion aqui instanciar kmeansy organicer
+            imagenes, kmeans, organizer = obtener_imagenes(self.texto_2,self.texto_1)
+
+            self.kmeans = kmeans
+            self.organizer = organizer
+
             for imagen in imagenes:
                 print(imagen)
 
